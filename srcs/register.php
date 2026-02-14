@@ -42,11 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-container">
             <h2>Register</h2>
 
-			<div class= "message <?php echo $div_class; ?>">
 				<?php if ($message): ?>
-            	    <p class="notification"><?php echo htmlspecialchars($message); ?></p>
+					<div class= "message <?php echo $div_class; ?>">
+						<p class="notification"><?php echo htmlspecialchars($message); ?></p>
+					</div>
             	<?php endif; ?>
-			</div>
             
             <form method="POST">
                 <input type="text" name="username" placeholder="Username" required>

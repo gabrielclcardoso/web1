@@ -23,19 +23,19 @@ $var = '42';
     </header>
 
     <main>
-        <h2>Bem-vindo ao Camagru!</h2>
-        <p>Tire sua foto e publique ela no site</p>
+        <h2>Welcome to camagru</h2>
+        <p>Take a picture and post it on the website</p>
         
         <div class="status">
-            <strong>Teste de valor:</strong> <?php echo $var; ?>
+            <strong>Variable test: </strong> <?php echo $var; ?>
         </div>
 
         <br><br>
-        <a href="#" class="btn">Ver Galeria Pública</a>
+        <a href="#" class="btn">Public gallery</a>
     </main>
 
     <footer>
-        <p>2026 Camagru - Projeto 42 - gcorreia</p>
+        <p>2026 Camagru - 42Rio - gcorreia</p>
     </footer>
 
 </body>

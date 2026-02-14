@@ -5,6 +5,7 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
 header,
 footer {
   background: #333;
@@ -12,11 +13,29 @@ footer {
   padding: 1rem;
   text-align: center;
 }
+
 main {
   flex: 1;
-  padding: 2rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f4f4f4;
 }
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+}
+
+div {
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
 .status {
   padding: 10px;
   border-radius: 5px;
@@ -24,10 +43,44 @@ main {
   display: inline-block;
   margin-top: 20px;
 }
+
 .btn {
-  background: #007bff;
+  width: 100%;
+  background: #28a745;
   color: white;
-  padding: 10px 20px;
-  text-decoration: none;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.form-container {
+  background: white;
+  width: 100%;
+  max-width: 400px;
+}
+
+.message {
+  padding: 10px;
+  margin-bottom: 15px;
   border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+
+.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    margin: 10px;
+  }
 }

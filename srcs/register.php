@@ -1,33 +1,36 @@
 <?php
-require_once 'utils/Database.php';
-
+require_once 'utils/User.php';
 $message = "";
-$status_class = "error";
+$div_class = "";
 
-try {
-    $pdo = Database::getInstance();
-    
-    $stmt = $pdo->query("SHOW TABLES");
-    $tables = $stmt->fetchAll(PDO::FETCH_COLUMN);
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+	$username = $_POST['username'] ?? '';
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    if (count($tables) > 0) {
-        $message = "Connection established successfully. Tables on database: " . implode(", ", $tables);
-        $status_class = "success";
+    $user = new User();
+
+    if (strlen($password) < 8) {
+        $message = "The password must have at least 8 characters";
+		$div_class = "error";
     } else {
-        $message = "Unable to connect to database";
+        if ($user->create($username, $email, $password)) {
+            $message = "User registered! Verify your account through the link sent to your e-mail";
+			$div_class = "success";
+        } else {
+            $message = "Error registering. Username or e-mail already being used";
+			$div_class = "error";
+        }
     }
-} catch (Exception $e) {
-    $message = "Error dealing with the database";
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="us-en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Database test- Camagru</title>
-	<link rel="stylesheet" href="public/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <title>Registro - Camagru</title>
+    <link rel="stylesheet" href="public/css/style.css">
 </head>
 <body>
 
@@ -36,12 +39,22 @@ try {
     </header>
 
     <main>
-        <div class="card">
-            <h2>DB status</h2>
-            <div class="<?php echo $status_class; ?>">
-                <?php echo htmlspecialchars($message); ?>
-            </div>
-            <br>
+        <div class="form-container">
+            <h2>Register</h2>
+
+			<div class= "message <?php echo $div_class; ?>">
+				<?php if ($message): ?>
+            	    <p class="notification"><?php echo htmlspecialchars($message); ?></p>
+            	<?php endif; ?>
+			</div>
+            
+            <form method="POST">
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="email" name="email" placeholder="E-mail" required>
+                <input type="password" name="password" placeholder="Password (min. 8 characters)" required>
+                <button type="submit" class="btn">Register</button>
+            </form>
+
         </div>
     </main>
 

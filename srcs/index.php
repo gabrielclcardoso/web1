@@ -3,7 +3,7 @@ $var = '42';
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="us-en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -17,15 +17,10 @@ $var = '42';
     </header>
 
     <main>
-        <h2>Welcome to camagru</h2>
-        <p>Take a picture and post it on the website</p>
-        
-        <div class="status">
-            <strong>Variable test: </strong> <?php echo $var; ?>
-        </div>
-
-        <br><br>
-        <a href="#" class="btn">Public gallery</a>
+		<div>
+			<h2>Welcome to camagru</h2>
+        	<p>Take a picture and post it on the website</p>
+		</div>
     </main>
 
     <footer>

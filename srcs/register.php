@@ -1,5 +1,6 @@
 <?php
 require_once 'utils/User.php';
+require_once 'utils/Email.php';
 $message = "";
 $div_class = "";
 
@@ -14,12 +15,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $message = "The password must have at least 8 characters";
 		$div_class = "error";
     } else {
-        if ($user->create($username, $email, $password)) {
-            $message = "User registered! Verify your account through the link sent to your e-mail";
-			$div_class = "success";
+		$token = $user->create($username, $email, $password);
+
+        if ($token) {
+            if (sendActivationEmail($email, $token)) {
+                $message = "Account created! Verify your e-mail to activate.";
+                $div_class = "success";
+            } else {
+                $message = "Account created, but email failed.";
+                $div_class = "warning";
+            }
         } else {
-            $message = "Error registering. Username or e-mail already being used";
-			$div_class = "error";
+            $message = "Error: Username or Email already exists.";
+            $div_class = "error";
         }
     }
 }

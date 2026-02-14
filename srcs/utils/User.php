@@ -15,15 +15,18 @@ class User {
         $sql = "INSERT INTO users (username, email, password, activation_token) VALUES (:u, :e, :p, :t)";
         $stmt = $this->pdo->prepare($sql);
         
-        try {
-            return $stmt->execute([
-                'u' => $username,
-                'e' => $email,
-                'p' => $hashedPassword,
-                't' => $token
-            ]);
-        } catch (PDOException $e) {
-            return false;
-        }
+		try {
+			if ($stmt->execute([
+        	    'u' => $username,
+        	    'e' => $email,
+        	    'p' => $hashedPassword,
+        	    't' => $token
+			])) {
+        	    return $token;
+			}
+    		    return false;
+    	} catch (PDOException $e) {
+    		    return false;
+    	}
     }
 }

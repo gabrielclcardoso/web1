@@ -6,6 +6,8 @@ CREATE TABLE IF NOT EXISTS users (
     activation_token VARCHAR(100),
     is_active BOOLEAN DEFAULT FALSE,
     notif_comment BOOLEAN DEFAULT TRUE,
+	reset_token VARCHAR(255) DEFAULT NULL,
+    reset_token_expiry DATETIME DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 

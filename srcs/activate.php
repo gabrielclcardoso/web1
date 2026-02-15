@@ -1,8 +1,6 @@
 <?php
-$page_title = 'Camagru - Email verification';
-require_once 'includes/header.php';
+require_once 'includes/init.php';
 require_once 'utils/Database.php';
-
 $message = "";
 $div_class = "";
 
@@ -31,6 +29,9 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
     header("Location: index.php");
     exit;
 }
+
+$page_title = 'Camagru - Email verification';
+require_once 'includes/header.php';
 ?>
 
 <div>

@@ -1,5 +1,3 @@
-<?php session_start(); ?>
-
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
@@ -16,7 +14,7 @@
                 <a href="index.php">Gallery</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
                     <a href="editor.php">Editor</a>
-                    <a href="profile.php">Profile</a>
+                    <a href="profile.php">Profile (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a>
                     <a href="logout.php">Logout</a>
                 <?php else: ?>
                     <a href="login.php">Login</a>

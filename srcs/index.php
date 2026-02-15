@@ -1,4 +1,6 @@
 <?php
+require_once 'includes/init.php';
+
 $page_title = 'Camagru - Home';
 require_once 'includes/header.php';
 ?>

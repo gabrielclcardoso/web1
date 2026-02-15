@@ -1,6 +1,5 @@
 <?php
-$page_title = 'Camagru - Register';
-require_once 'includes/header.php';
+require_once 'includes/init.php';
 require_once 'utils/User.php';
 require_once 'utils/Email.php';
 $message = "";
@@ -33,6 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     }
 }
+
+$page_title = 'Camagru - Register';
+require_once 'includes/header.php';
 ?>
 
 

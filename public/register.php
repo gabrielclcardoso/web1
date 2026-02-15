@@ -1,7 +1,7 @@
 <?php
-require_once 'includes/init.php';
-require_once 'utils/User.php';
-require_once 'utils/Email.php';
+require_once '../srcs/includes/init.php';
+require_once '../srcs/utils/User.php';
+require_once '../srcs/utils/Email.php';
 $message = "";
 $div_class = "";
 
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_title = 'Camagru - Register';
-require_once 'includes/header.php';
+require_once '../srcs/includes/header.php';
 ?>
 
 
@@ -57,5 +57,5 @@ require_once 'includes/header.php';
 </div>
 
 <?php 
-require_once 'includes/footer.php'; 
+require_once '../srcs/includes/footer.php'; 
 ?>

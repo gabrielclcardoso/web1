@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/init.php';
-require_once 'utils/User.php';
+require_once '../srcs/includes/init.php';
+require_once '../srcs/utils/User.php';
 
 $message = "";
 $div_class = "";
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $page_title = 'Camagru - Login';
-require_once 'includes/header.php';
+require_once '../srcs/includes/header.php';
 ?>
 
 <div class="form-container">
@@ -57,5 +57,5 @@ require_once 'includes/header.php';
 </div>
 
 <?php 
-require_once 'includes/footer.php'; 
+require_once '../srcs/includes/footer.php'; 
 ?>

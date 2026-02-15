@@ -1,6 +1,6 @@
 <?php
-require_once 'includes/init.php';
-require_once 'utils/Database.php';
+require_once '../srcs/includes/init.php';
+require_once '../srcs/utils/Database.php';
 $message = "";
 $div_class = "";
 
@@ -31,7 +31,7 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
 }
 
 $page_title = 'Camagru - Email verification';
-require_once 'includes/header.php';
+require_once '../srcs/includes/header.php';
 ?>
 
 <div>
@@ -43,5 +43,5 @@ require_once 'includes/header.php';
 </div>
 
 <?php 
-require_once 'includes/footer.php'; 
+require_once '../srcs/includes/footer.php'; 
 ?>

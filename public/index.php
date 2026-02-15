@@ -1,8 +1,8 @@
 <?php
-require_once 'includes/init.php';
+require_once '../srcs/includes/init.php';
 
 $page_title = 'Camagru - Home';
-require_once 'includes/header.php';
+require_once '../srcs/includes/header.php';
 ?>
 
 <div>
@@ -11,5 +11,5 @@ require_once 'includes/header.php';
 </div>
 
 <?php 
-require_once 'includes/footer.php'; 
+require_once '../srcs/includes/footer.php'; 
 ?>

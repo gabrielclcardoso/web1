@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/init.php';
+require_once '../srcs/includes/init.php';
 
 $_SESSION = array();
 session_destroy();

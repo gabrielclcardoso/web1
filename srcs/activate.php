@@ -1,4 +1,6 @@
 <?php
+$page_title = 'Camagru - Email verification';
+require_once 'includes/header.php';
 require_once 'utils/Database.php';
 
 $message = "";
@@ -31,31 +33,14 @@ if (isset($_GET['email']) && isset($_GET['token'])) {
 }
 ?>
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ativação - Camagru</title>
-    <link rel="stylesheet" href="public/css/style.css">
-</head>
-<body>
-    <header>
-        <h1>Camagru</h1>
-    </header>
+<div>
+	<div class="message <?php echo $msg_class; ?>">
+	    <?php echo htmlspecialchars($message); ?>
+	</div>
+	<br>
+	<a class= "btn-link" href="login.php">Login</a>
+</div>
 
-    <main>
-		<div>
-			<div class="message <?php echo $msg_class; ?>">
-        	    <?php echo htmlspecialchars($message); ?>
-        	</div>
-        	<br>
-			<a class= "btn-link" href="index.php">Login</a>
-		</div>
-    </main>
-
-    <footer>
-        <p>2026 Camagru - 42Rio - gcorreia</p>
-    </footer>
-</body>
-</html>
+<?php 
+require_once 'includes/footer.php'; 
+?>

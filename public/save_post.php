@@ -54,13 +54,21 @@ $overlayImg = imagecreatefrompng($overlayAbsolutePath);
 imagealphablending($sourceImg, true);
 imagesavealpha($sourceImg, true);
 
-imagecopy(
+$srcWidth = imagesx($sourceImg);
+$srcHeight = imagesy($sourceImg);
+
+$ovrWidth = imagesx($overlayImg);
+$ovrHeight = imagesy($overlayImg);
+
+imagecopyresampled(
     $sourceImg,
     $overlayImg,
     0, 0,
     0, 0,
-    imagesx($sourceImg),
-    imagesy($sourceImg)
+    $srcWidth,
+    $srcHeight,
+    $ovrWidth,
+    $ovrHeight
 );
 
 $uploadDir = __DIR__ . '/assets/uploads/';

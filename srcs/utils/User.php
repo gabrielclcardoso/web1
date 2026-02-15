@@ -73,4 +73,34 @@ class User {
 	    $stmt = $this->pdo->prepare($sql);
 	    return $stmt->execute(['p' => $hashedPassword, 't' => $token]) && $stmt->rowCount() > 0;
 	}
+
+	public function updateInfo($id, $newUsername, $newEmail) {
+	    $check = $this->pdo->prepare("SELECT id FROM users WHERE (username = :u OR email = :e) AND id != :id");
+	    $check->execute(['u' => $newUsername, 'e' => $newEmail, 'id' => $id]);
+	    
+	    if ($check->fetch()) {
+	        return ['status' => false, 'message' => 'Username or Email already in use'];
+	    }
+	
+	    $sql = "UPDATE users SET username = :u, email = :e WHERE id = :id";
+	    $stmt = $this->pdo->prepare($sql);
+	    
+	    if ($stmt->execute(['u' => $newUsername, 'e' => $newEmail, 'id' => $id])) {
+	        return ['status' => true];
+	    }
+	    return ['status' => false, 'message' => 'Error updating profile.'];
+	}
+	
+	public function updatePassword($id, $newPassword) {
+	    $hashed = password_hash($newPassword, PASSWORD_BCRYPT);
+	    $sql = "UPDATE users SET password = :p WHERE id = :id";
+	    $stmt = $this->pdo->prepare($sql);
+	    return $stmt->execute(['p' => $hashed, 'id' => $id]);
+	}
+	
+	public function getById($id) {
+	    $stmt = $this->pdo->prepare("SELECT username, email FROM users WHERE id = :id");
+	    $stmt->execute(['id' => $id]);
+	    return $stmt->fetch();
+	}
 }

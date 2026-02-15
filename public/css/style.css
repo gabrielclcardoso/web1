@@ -43,6 +43,13 @@ div {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
+video {
+  width: 100%;
+  border-radius: 8px;
+  background: #000;
+  transform: scaleX(-1);
+}
+
 .status {
   padding: 10px;
   border-radius: 5px;
@@ -128,6 +135,39 @@ div {
 
 .logo:hover {
   color: #007bff;
+}
+
+.editor-container {
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.camera-section {
+  flex: 2;
+  max-width: 640px;
+}
+
+.sidebar {
+  flex: 1;
+  min-width: 200px;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.overlay-item {
+  width: 80px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
+}
+
+.overlay-item.selected {
+  border-color: #007bff;
+  background: #e7f3ff;
 }
 
 @media (max-width: 600px) {

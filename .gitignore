@@ -1,3 +1,4 @@
 .env
 db_data
 msmtprc
+public/assets/uploads

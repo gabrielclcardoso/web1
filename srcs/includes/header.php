@@ -13,7 +13,7 @@
             <div class="nav-links">
                 <a href="index.php">Gallery</a>
                 <?php if (isset($_SESSION['user_id'])): ?>
-                    <a href="editor.php">Editor</a>
+                    <a href="studio.php">Studio</a>
                     <a href="profile.php">Profile (<?php echo htmlspecialchars($_SESSION['username']); ?>)</a>
                     <a href="logout.php">Logout</a>
                 <?php else: ?>

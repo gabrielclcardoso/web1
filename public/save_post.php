@@ -28,10 +28,12 @@ try {
     
     $fileName = 'post_' . $_SESSION['user_id'] . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.png';
     $savePath = $uploadDir . $fileName;
-
+	
+	$isWebcam = isset($input['is_webcam']) ? $input['is_webcam'] : true;
+	
 	// Image processing and saving
     $processor = new ImageProcessor();
-    $processor->loadFromBase64($input['image'])
+    $processor->loadFromBase64($input['image'], $isWebcam)
               ->applyOverlay($overlayAbsolutePath)
               ->save($savePath);
 

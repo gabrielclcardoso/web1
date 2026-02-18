@@ -9,7 +9,7 @@ class ImageProcessor {
         if ($this->overlayImg) imagedestroy($this->overlayImg);
     }
 
-    public function loadFromBase64($base64String) {
+    public function loadFromBase64($base64String, $isWebcam = true) {
         $imgBase64 = preg_replace('#^data:image/\w+;base64,#i', '', $base64String);
         $imgBinary = base64_decode($imgBase64);
         
@@ -18,7 +18,10 @@ class ImageProcessor {
         $this->sourceImg = @imagecreatefromstring($imgBinary);
         if (!$this->sourceImg) throw new Exception('Invalid image.');
         
-		imageflip($this->sourceImg, IMG_FLIP_HORIZONTAL);
+		if ($isWebcam) {
+			imageflip($this->sourceImg, IMG_FLIP_HORIZONTAL);
+		}
+
         return $this;
     }
 

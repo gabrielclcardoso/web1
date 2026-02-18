@@ -12,10 +12,13 @@ require_once '../srcs/includes/header.php';
 <div class="editor-container">
     <div class="camera-section">
         <video id="video" autoplay playsinline></video>
-        
         <canvas id="canvas" style="display:none;"></canvas>
-        
         <button id="capture-btn" class="btn" disabled>Take picture</button>
+    </div>
+	<div class="upload-section" style="margin-top: 20px; padding-top: 15px; border-top: 1px solid #ccc;">
+            <p style="margin-bottom: 10px; font-size: 0.9em;">Or upload a picture:</p>
+            <input type="file" id="file-upload" accept="image/png, image/jpeg, image/jpg" style="margin-bottom: 10px;">
+            <button id="clear-upload" class="btn" style="display:none; background: #6c757d;">Back to Webcam</button>
     </div>
 
     <div class="sidebar">

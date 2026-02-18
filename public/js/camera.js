@@ -47,9 +47,8 @@ captureBtn.addEventListener("click", () => {
       if (data.success) alert("Picture uploaded successfully");
       else alert("Error: " + data.message);
     })
-    // ADICIONE ISSO PARA VER OS ERROS:
     .catch((error) => {
-      console.error("Erro no fetch:", error);
-      alert("Ocorreu um erro técnico. Verifique o console (F12).");
+      console.error("Fetch error:", error);
+      alert("Unexpected error, check the console");
     });
 });

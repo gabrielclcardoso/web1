@@ -1,97 +1,53 @@
 <?php
+ini_set('display_errors', 0);
 header('Content-Type: application/json');
+
 require_once '../srcs/includes/init.php';
 require_once '../srcs/utils/Image.php';
+require_once '../srcs/utils/ImageProcessor.php'; 
 
-if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    echo json_encode(['success' => false, 'message' => 'Acess denied']);
-    exit;
-}
+try {
+    // Initial Validations
+    if (!isset($_SESSION['user_id']) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+        throw new Exception('Access denied.');
+    }
 
-$input = json_decode(file_get_contents('php://input'), true);
+    $input = json_decode(file_get_contents('php://input'), true);
+    if (!$input || empty($input['image']) || empty($input['overlay'])) {
+        throw new Exception('Incomplete data.');
+    }
 
-if (!$input || empty($input['image']) || empty($input['overlay'])) {
-    http_response_code(400);
-    echo json_encode(['success' => false, 'message' => 'Incomplete data']);
-    exit;
-}
+    $overlayRelative = $input['overlay'];
+    if (strpos($overlayRelative, 'assets/overlays/') !== 0 || strpos($overlayRelative, '..') !== false) {
+        throw new Exception('Invalid overlay path');
+    }
 
-// Decode image to binary
-$imgBase64 = preg_replace('#^data:image/\w+;base64,#i', '', $input['image']);
-$imgBinary = base64_decode($imgBase64);
+    $overlayAbsolutePath = __DIR__ . '/' . $overlayRelative;
+    $uploadDir = __DIR__ . '/assets/uploads/';
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+    
+    $fileName = 'post_' . $_SESSION['user_id'] . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.png';
+    $savePath = $uploadDir . $fileName;
 
-if (!$imgBinary) {
-    echo json_encode(['success' => false, 'message' => 'Error decoding image']);
-    exit;
-}
+	// Image processing and saving
+    $processor = new ImageProcessor();
+    $processor->loadFromBase64($input['image'])
+              ->applyOverlay($overlayAbsolutePath)
+              ->save($savePath);
 
-// @ used to suppress warnings
-$sourceImg = @imagecreatefromstring($imgBinary);
+	// Database uploading
+    $dbPath = 'assets/uploads/' . $fileName;
+    $post = new Image(); 
+    
+    if (!$post->create($_SESSION['user_id'], $dbPath)) {
+        if (file_exists($savePath)) unlink($savePath);
+        throw new Exception('Error registering image on the database');
+    }
 
-if (!$sourceImg) {
-    echo json_encode(['success' => false, 'message' => 'Invalid image received.']);
-    exit;
-}
-
-$overlayRelativePath = $input['overlay'];
-if (strpos($overlayRelativePath, 'assets/overlays/') !== 0 || strpos($overlayRelativePath, '..') !== false) {
-     echo json_encode(['success' => false, 'message' => 'Invalid overlay path']);
-     imagedestroy($sourceImg);
-     exit;
-}
-
-$overlayAbsolutePath = __DIR__ . '/' . $overlayRelativePath;
-
-if (!file_exists($overlayAbsolutePath)) {
-    echo json_encode(['success' => false, 'message' => 'Overlay not found']);
-    imagedestroy($sourceImg);
-    exit;
-}
-
-$overlayImg = imagecreatefrompng($overlayAbsolutePath);
-
-// Guarantee transparency
-imagealphablending($sourceImg, true);
-imagesavealpha($sourceImg, true);
-
-$srcWidth = imagesx($sourceImg);
-$srcHeight = imagesy($sourceImg);
-
-$ovrWidth = imagesx($overlayImg);
-$ovrHeight = imagesy($overlayImg);
-
-imagecopyresampled(
-    $sourceImg,
-    $overlayImg,
-    0, 0,
-    0, 0,
-    $srcWidth,
-    $srcHeight,
-    $ovrWidth,
-    $ovrHeight
-);
-
-$uploadDir = __DIR__ . '/assets/uploads/';
-$fileName = 'post_' . $_SESSION['user_id'] . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.png';
-$savePath = $uploadDir . $fileName;
-
-if (!imagepng($sourceImg, $savePath)) {
-    echo json_encode(['success' => false, 'message' => 'Unable to save image']);
-    imagedestroy($sourceImg);
-    imagedestroy($overlayImg);
-    exit;
-}
-
-$post = new Image();
-$dbPath = 'assets/uploads/' . $fileName;
-
-if ($post->create($_SESSION['user_id'], $dbPath)) {
     echo json_encode(['success' => true]);
-} else {
-    if (file_exists($savePath)) unlink($savePath);
-    echo json_encode(['success' => false, 'message' => 'Error storing picture on DB.']);
-}
 
-imagedestroy($sourceImg);
-if (isset($overlayImg)) imagedestroy($overlayImg);
+} catch (Exception $e) {
+    http_response_code(500);
+    echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+}
 ?>

@@ -36,6 +36,16 @@ class Image {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getUserImages($userId) {
+		$sql = "SELECT *
+				FROM images
+				WHERE user_id = :uid
+				ORDER BY created_at DESC";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute(['uid' => $userId]);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function delete($imageId, $userId) {
         $sql = "DELETE FROM images WHERE id = :pid AND user_id = :uid";
         $stmt = $this->pdo->prepare($sql);

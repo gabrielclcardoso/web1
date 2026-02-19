@@ -27,11 +27,10 @@ require_once '../srcs/includes/header.php';
             <img src="assets/overlays/santa_hat.png" class="overlay-item" data-id="1">
             <img src="assets/overlays/beach.png" class="overlay-item" data-id="2">
         </div>
+		<div id="gallery-preview"/>
     </div>
 </div>
 
-<div id="gallery-preview">
-    </div>
 
 <script src="js/camera.js"></script>
 

@@ -18,6 +18,34 @@ function startWebcam() {
 }
 startWebcam();
 
+function loadGallery() {
+  fetch("get_user_images.php")
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.success) {
+        const gallery = document.getElementById("gallery-preview");
+
+        gallery.innerHTML =
+          "<h3>My Recent Pictures</h3><div class='thumbnail-container'></div>";
+        const container = gallery.querySelector(".thumbnail-container");
+
+        if (data.images.length === 0) {
+          container.innerHTML = "<p style='color: #777;'>No pictures yet</p>";
+          return;
+        }
+
+        data.images.forEach((image) => {
+          const img = document.createElement("img");
+          img.src = image.path;
+          img.className = "gallery-thumbnail";
+          container.appendChild(img);
+        });
+      }
+    })
+    .catch((err) => console.log("Unable to load gallery.", err));
+}
+loadGallery();
+
 // Disable picture without overlay
 overlayItems.forEach((item) => {
   item.addEventListener("click", () => {
@@ -98,8 +126,11 @@ captureBtn.addEventListener("click", () => {
       return response.json();
     })
     .then((data) => {
-      if (data.success) alert("Picture uploaded successfully");
-      else alert("Error: " + data.message);
+      if (data.success) {
+        alert("Picture uploaded successfully");
+        loadGallery();
+        if (useUploadedFile) clearUploadBtn.click();
+      } else alert("Error: " + data.message);
     })
     .catch((error) => {
       alert(error.message);

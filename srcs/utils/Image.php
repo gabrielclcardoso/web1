@@ -47,9 +47,20 @@ class Image {
     }
 
     public function delete($imageId, $userId) {
-        $sql = "DELETE FROM images WHERE id = :pid AND user_id = :uid";
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute(['pid' => $imageId, 'uid' => $userId]);
-        return $stmt->rowCount() > 0;
+		$stmt = $this->pdo->prepare("SELECT path FROM images WHERE id = :pid AND user_id = :uid");
+    	$stmt->execute(['pid' => $imageId, 'uid' => $userId]);
+    	$image = $stmt->fetch();
+
+    	if ($image) {
+    	    $del = $this->pdo->prepare("DELETE FROM images WHERE id = :pid AND user_id = :uid");
+    	    if ($del->execute(['pid' => $imageId, 'uid' => $userId])) {
+    	        $absolutePath = __DIR__ . '/../../public/' . $image['path'];
+    	        if (file_exists($absolutePath)) {
+    	            unlink($absolutePath);
+    	        }
+    	        return true;
+    	    }
+    	}
+    	return false;
     }
 }

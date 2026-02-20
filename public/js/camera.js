@@ -35,16 +35,49 @@ function loadGallery() {
         }
 
         data.images.forEach((image) => {
+          const wrapper = document.createElement("div");
+          wrapper.className = "thumbnail-wrapper";
+
           const img = document.createElement("img");
           img.src = image.path;
           img.className = "gallery-thumbnail";
-          container.appendChild(img);
+
+          const delBtn = document.createElement("button");
+          delBtn.innerHTML = "&times;";
+          delBtn.className = "delete-btn";
+
+          delBtn.onclick = () => {
+            if (confirm("Delete this picture?")) {
+              deleteImage(image.id, wrapper);
+            }
+          };
+
+          wrapper.appendChild(img);
+          wrapper.appendChild(delBtn);
+          container.appendChild(wrapper);
         });
       }
     })
     .catch((err) => console.log("Unable to load gallery.", err));
 }
 loadGallery();
+
+function deleteImage(imageId, wrapperElement) {
+  fetch("delete_image.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ imageId: imageId }),
+  })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.success) {
+        wrapperElement.remove();
+      } else {
+        alert("Error: " + data.message);
+      }
+    })
+    .catch((err) => alert("Error:", err));
+}
 
 // Disable picture without overlay
 overlayItems.forEach((item) => {

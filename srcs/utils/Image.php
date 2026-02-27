@@ -28,16 +28,23 @@ class Image {
         return $stmt->fetchColumn();
     }
 
-    public function getAll($limit = 20, $offset = 0) {
-        $sql = "SELECT p.*, u.username 
-                FROM images p 
-                JOIN users u ON p.user_id = u.id 
-                ORDER BY p.created_at DESC 
+    public function getAll($limit = 20, $offset = 0, $currentUserId = 0) {
+		$sql = "SELECT
+					i.*,
+					u.username,
+					COUNT(l.id) AS like_count,
+                    (SELECT COUNT(*) FROM likes WHERE image_id = i.id AND user_id = :current_user_id) AS user_liked
+                FROM images i 
+                JOIN users u ON i.user_id = u.id 
+				LEFT JOIN likes l ON i.id = l.image_id
+				GROUP BY i.id
+                ORDER BY i.created_at DESC 
                 LIMIT :limit OFFSET :offset";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
 		$stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
+		$stmt->bindValue(':current_user_id', (int)$currentUserId, PDO::PARAM_INT);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

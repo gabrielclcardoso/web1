@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS likes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     image_id INT NOT NULL,
     user_id INT NOT NULL,
-    UNIQUE KEY (image_id, user_id),
     FOREIGN KEY (image_id) REFERENCES images(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+    UNIQUE KEY (image_id, user_id),
 );

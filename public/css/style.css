@@ -371,6 +371,35 @@ canvas#canvas {
   color: #0056b3;
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  margin-top: 40px;
+  padding-bottom: 20px;
+}
+
+.page-link {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 5px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.page-link:hover {
+  background-color: #0056b3;
+}
+
+.page-info {
+  font-size: 1rem;
+  color: #555;
+  font-weight: bold;
+}
+
 @media (max-width: 768px) {
   header,
   footer {
@@ -427,5 +456,15 @@ canvas#canvas {
     flex-wrap: wrap;
     justify-content: center;
     gap: 10px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .page-link {
+    width: 100%;
+    text-align: center;
   }
 }

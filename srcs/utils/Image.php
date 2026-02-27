@@ -22,15 +22,22 @@ class Image {
         }
     }
 
-    public function getAll($limit = 20) {
+	public function getTotalCount() {
+        $sql = "SELECT COUNT(*) FROM images";
+        $stmt = $this->pdo->query($sql);
+        return $stmt->fetchColumn();
+    }
+
+    public function getAll($limit = 20, $offset = 0) {
         $sql = "SELECT p.*, u.username 
                 FROM images p 
                 JOIN users u ON p.user_id = u.id 
                 ORDER BY p.created_at DESC 
-                LIMIT :limit";
+                LIMIT :limit OFFSET :offset";
         
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindValue(':limit', $limit, PDO::PARAM_INT);
+		$stmt->bindValue(':offset', (int)$offset, PDO::PARAM_INT);
         $stmt->execute();
         
         return $stmt->fetchAll(PDO::FETCH_ASSOC);

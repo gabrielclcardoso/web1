@@ -1,13 +1,62 @@
 <?php
 require_once '../srcs/includes/init.php';
+require_once '../srcs/utils/Image.php';
 
 $page_title = 'Camagru - Home';
 require_once '../srcs/includes/header.php';
+
+$imageHandler = new Image();
+$images = $imageHandler->getAll(3);
+
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
 
-<div>
-	<h2>Welcome to camagru</h2>
-	<p>Take a picture and post it on the website</p>
+<div class="gallery-container">
+    <h1>Public Gallery</h1>
+
+    <?php if (empty($images)): ?>
+        <div class="card" style="text-align: center; padding: 2rem;">
+            <p>No pictures yet. Be the first to post something!</p>
+            <?php if ($isLoggedIn): ?>
+                <a href="studio.php" class="btn-link">Go to Studio</a>
+            <?php endif; ?>
+        </div>
+    <?php else: ?>
+        <div class="feed">
+            <?php foreach ($images as $image): ?>
+                <div class="post-card">
+                    <div class="post-header">
+                        <span class="post-author"><?php echo htmlspecialchars($image['username']); ?></span>
+                        <span class="post-date"><?php echo date('d M Y, H:i', strtotime($image['created_at'])); ?></span>
+                    </div>
+
+                    <img src="<?php echo htmlspecialchars($image['path']); ?>" alt="Post by <?php echo htmlspecialchars($post['username']); ?>" class="post-image">
+
+                    <div class="post-actions">
+                        <?php if ($isLoggedIn): ?>
+                            <button class="action-btn like-btn" data-id="<?php echo $image['id']; ?>">
+                                ❤️ <span class="like-count">0</span>
+                            </button>
+                            <button class="action-btn comment-btn" onclick="document.getElementById('comment-input-<?php echo $image['id']; ?>').focus();">
+                                💬 Comment
+                            </button>
+                        <?php else: ?>
+                            <p style="font-size: 0.9em; color: #777;">Log in to like and comment.</p>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="post-comments">
+                        <?php if ($isLoggedIn): ?>
+                            <div class="add-comment">
+                                <input type="text" id="comment-input-<?php echo $image['id']; ?>" placeholder="Add a comment..." class="comment-input">
+                                <button class="btn-send-comment" data-id="<?php echo $image['id']; ?>">Send</button>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
 </div>
 
 <?php 

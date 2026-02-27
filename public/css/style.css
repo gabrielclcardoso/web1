@@ -271,6 +271,106 @@ canvas#canvas {
   background: rgba(255, 0, 0, 1);
 }
 
+.gallery-container {
+  width: 100%;
+  max-width: 600px; /* Mantém o feed estreito e elegante no PC */
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.post-card {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.post-header {
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+}
+
+.post-author {
+  font-weight: bold;
+  color: #333;
+}
+
+.post-date {
+  font-size: 0.8rem;
+  color: #888;
+}
+
+.post-image {
+  width: 100%;
+  height: auto;
+  display: block; /* Remove espaços invisíveis embaixo da imagem */
+}
+
+.post-actions {
+  padding: 10px 15px;
+  display: flex;
+  gap: 15px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: #555;
+  transition: color 0.2s;
+  padding: 5px 0;
+}
+
+.action-btn:hover {
+  color: #007bff;
+}
+
+.post-comments {
+  padding: 0 15px 15px 15px;
+}
+
+.add-comment {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  outline: none;
+}
+
+.comment-input:focus {
+  border-color: #007bff;
+}
+
+.btn-send-comment {
+  background: white;
+  color: #007bff;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  padding: 0 10px;
+}
+
+.btn-send-comment:hover {
+  color: #0056b3;
+}
+
 @media (max-width: 768px) {
   header,
   footer {

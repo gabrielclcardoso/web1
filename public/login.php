@@ -43,8 +43,8 @@ require_once '../srcs/includes/header.php';
     <?php endif; ?>
 
     <form method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="password" name="password" placeholder="Password" required>
+		<input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required>
+        <input type="password" id="password" name="password" placeholder="Password" autocomplete="current-password" required>
         <button type="submit" class="btn">login</button>
     </form>
 

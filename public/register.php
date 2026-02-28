@@ -48,9 +48,14 @@ require_once '../srcs/includes/header.php';
     	<?php endif; ?>
     
     <form method="POST">
-        <input type="text" name="username" placeholder="Username" required>
-        <input type="email" name="email" placeholder="E-mail" required>
-        <input type="password" name="password" placeholder="Password (min. 8 characters)" required>
+		<label for="username">Username</label>
+        <input type="text" id="username" name="username" placeholder="Username" autocomplete="username" required>
+        
+        <label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
+        
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Password (min. 8 characters)" autocomplete="new-password" required>
         <button type="submit" class="btn">Register</button>
     </form>
 

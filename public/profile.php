@@ -55,10 +55,10 @@ require_once '../srcs/includes/header.php';
 
     <form method="POST" style="margin-bottom: 30px; border-bottom: 1px solid #eee; padding-bottom: 20px;">
         <h3>Account Information</h3>
-        <label>Username:</label>
-        <input type="text" name="username" value="<?php echo htmlspecialchars($currentData['username']); ?>" required>
-        <label>E-mail:</label>
-        <input type="email" name="email" value="<?php echo htmlspecialchars($currentData['email']); ?>" required>
+		<label for="username">Username:</label>
+		<input type="text" id="username" name="username" autocomplete="username" value="<?php echo htmlspecialchars($currentData['username']); ?>" required>
+		<label for="email">E-mail:</label>
+        <input type="email" id="email" name="email" autocomplete="email" value="<?php echo htmlspecialchars($currentData['email']); ?>" required>
 		<div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
             <input type="checkbox" id="notifications" name="notifications" value="1" style="width: auto; margin: 0;" 
                 <?php echo (!isset($currentData['notif_comment']) || $currentData['notif_comment'] == 1) ? 'checked' : ''; ?>>
@@ -69,7 +69,8 @@ require_once '../srcs/includes/header.php';
 
     <form method="POST">
         <h3>Change Password</h3>
-        <input type="password" name="password" placeholder="New Password" required>
+		<label for="password">New Password:</label>
+        <input type="password" id="password" name="password" autocomplete="new-password" placeholder="New Password" required>
         <button type="submit" name="update_pass" class="btn" style="background: #6c757d;">Change Password</button>
     </form>
 </div>

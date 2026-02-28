@@ -30,7 +30,8 @@ require_once '../srcs/includes/header.php';
 
     <form method="POST">
         <p>Fill your email to receive tha password reset link.</p>
-        <input type="email" name="email" placeholder="your e-mail" required>
+		<label for="email">E-mail</label>
+        <input type="email" id="email" name="email" placeholder="your e-mail" autocomplete="email" required>
         <button type="submit" class="btn">Send link</button>
     </form>
     <p><a href="login.php">Login</a></p>

@@ -1,6 +1,7 @@
 <?php
 require_once '../srcs/includes/init.php';
 require_once '../srcs/utils/Image.php';
+require_once '../srcs/utils/Comment.php';
 
 $page_title = 'Camagru - Home';
 require_once '../srcs/includes/header.php';
@@ -13,6 +14,7 @@ if ($currentPage < 1) $currentPage = 1;
 $offset = ($currentPage - 1) * $imagesPerPage;
 
 $imageHandler = new Image();
+$commentHandler = new Comment();
 
 $totalPosts = $imageHandler->getTotalCount();
 $totalPages = ceil($totalPosts / $imagesPerPage);
@@ -36,15 +38,15 @@ $isLoggedIn = isset($_SESSION['user_id']);
     <?php else: ?>
         <div class="feed">
             <?php foreach ($images as $image): ?>
-                <div class="post-card">
-                    <div class="post-header">
-                        <span class="post-author"><?php echo htmlspecialchars($image['username']); ?></span>
-                        <span class="post-date"><?php echo date('d M Y, H:i', strtotime($image['created_at'])); ?></span>
+                <div class="image-card">
+                    <div class="image-header">
+                        <span class="image-author"><?php echo htmlspecialchars($image['username']); ?></span>
+                        <span class="image-date"><?php echo date('d M Y, H:i', strtotime($image['created_at'])); ?></span>
                     </div>
 
-                    <img src="<?php echo htmlspecialchars($image['path']); ?>" alt="Post by <?php echo htmlspecialchars($image['username']); ?>" class="post-image">
+                    <img src="<?php echo htmlspecialchars($image['path']); ?>" alt="Post by <?php echo htmlspecialchars($image['username']); ?>" class="image-image">
 
-                    <div class="post-actions">
+                    <div class="image-actions">
                         <?php if ($isLoggedIn): ?>
 						<button class="action-btn like-btn" data-id="<?php echo $image['id']; ?>" style="color: <?php echo ($image['user_liked'] > 0) ? 'red' : '#555'; ?>;">
 							❤️ <span class="like-count"><?php echo $image['like_count']; ?></span>
@@ -57,7 +59,16 @@ $isLoggedIn = isset($_SESSION['user_id']);
                         <?php endif; ?>
                     </div>
 
-                    <div class="post-comments">
+                    <div class="image-comments">
+						<?php 
+							$imageComments = $commentHandler->getByImageId($image['id']);
+                        	foreach ($imageComments as $comment): 
+                        ?>
+							<div class="comment-item">
+                        	    <strong><?php echo htmlspecialchars($comment['username']); ?>:</strong> 
+                        	    <?php echo htmlspecialchars($comment['content']); ?>
+                        	</div>
+                        <?php endforeach; ?>
                         <?php if ($isLoggedIn): ?>
                             <div class="add-comment">
                                 <input type="text" id="comment-input-<?php echo $image['id']; ?>" placeholder="Add a comment..." class="comment-input">

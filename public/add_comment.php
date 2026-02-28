@@ -22,8 +22,8 @@ $commentHandler = new Comment();
 if ($commentHandler->add($_SESSION['user_id'], $imageId, $commentText)) {
     echo json_encode([
         'success' => true,
-        'username' => $_SESSION['username'],
-        'comment' => htmlspecialchars($commentText)
+		'username' => htmlspecialchars($_SESSION['username'], ENT_QUOTES, 'UTF-8'),
+        'content' => htmlspecialchars($commentText, ENT_QUOTES, 'UTF-8')
     ]);
 } else {
     echo json_encode(['success' => false, 'message' => 'Error adding comment.']);

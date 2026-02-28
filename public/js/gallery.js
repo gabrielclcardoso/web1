@@ -59,7 +59,7 @@ document.addEventListener("click", function (e) {
 
           const newComment = document.createElement("div");
           newComment.className = "comment-item";
-          newComment.innerHTML = `<strong>${data.username}:</strong> ${data.comment}`;
+          newComment.innerHTML = `<strong>${data.username}:</strong> ${data.content}`;
 
           const addCommentDiv = imageCard.querySelector(".add-comment");
           commentsArea.insertBefore(newComment, addCommentDiv);

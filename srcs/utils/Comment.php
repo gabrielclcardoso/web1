@@ -14,7 +14,7 @@ class Comment {
         $success = $stmt->execute([
             'uid' => $userId,
             'pid' => $imageId,
-            'comment' => htmlspecialchars($commentText)
+            'comment' => $commentText
         ]);
 
         if ($success) {

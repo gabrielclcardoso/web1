@@ -15,15 +15,17 @@ $div_class = "";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['update_info'])) {
         $username = $_POST['username'] ?? $currentData['username'];
-        $email = $_POST['email'] ?? $currentData['username'];
+		$email = $_POST['email'] ?? $currentData['email'];
+		$notifications = isset($_POST['notifications']) ? 1 : 0;
 
-        $res = $user->updateInfo($_SESSION['user_id'], $username, $email);
+		$res = $user->updateInfo($_SESSION['user_id'], $username, $email, $notifications);
         if ($res['status']) {
             $_SESSION['username'] = $username;
             $message = "Information updated!";
             $div_class = "success";
+            $currentData['notif_comment'] = $notifications;
         } else {
-            $message = $res['message'];
+			$message = $res['message'] ?? "Error updating info.";
             $div_class = "error";
         }
     } elseif (isset($_POST['update_pass'])) {
@@ -57,6 +59,11 @@ require_once '../srcs/includes/header.php';
         <input type="text" name="username" value="<?php echo htmlspecialchars($currentData['username']); ?>" required>
         <label>E-mail:</label>
         <input type="email" name="email" value="<?php echo htmlspecialchars($currentData['email']); ?>" required>
+		<div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
+            <input type="checkbox" id="notifications" name="notifications" value="1" style="width: auto; margin: 0;" 
+                <?php echo (!isset($currentData['notif_comment']) || $currentData['notif_comment'] == 1) ? 'checked' : ''; ?>>
+            <label for="notifications" style="cursor: pointer;">Send me an email when someone comments on my pictures</label>
+        </div>
         <button type="submit" name="update_info" class="btn">Submit Changes</button>
     </form>
 

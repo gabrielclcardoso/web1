@@ -36,7 +36,7 @@ class Comment {
     }
 
     private function notifyOwner($commenterId, $imageId, $commentText) {
-        $sql = "SELECT u.email, u.username AS owner_name, 
+        $sql = "SELECT u.email, u.username AS owner_name, u.notif_comment,
                        (SELECT username FROM users WHERE id = :cid) AS commenter_name
                 FROM images p 
                 JOIN users u ON p.user_id = u.id 
@@ -46,7 +46,7 @@ class Comment {
         $stmt->execute(['cid' => $commenterId, 'pid' => $imageId]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        if ($data && $data['email']) {
+		if ($data && $data['email'] && $data['notif_comment'] == 1) {
             $to = $data['email'];
             $subject = "Camagru - New comment on your picture!";
             $message = "Hello " . $data['owner_name'] . ",\n\n";

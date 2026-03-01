@@ -21,6 +21,7 @@ services:
     volumes:
       - ./srcs:/var/www/html/srcs
       - ./public:/var/www/html/public
+      - uploads_data:/var/www/html/public/assets/uploads
     depends_on:
       - db
     environment:
@@ -38,8 +39,10 @@ services:
     volumes:
       - ./public:/var/www/html/public
       - ./conf/nginx.conf:/etc/nginx/conf.d/default.conf
+      - uploads_data:/var/www/html/public/assets/uploads
     depends_on:
       - app
 
 volumes:
   db_data:
+  uploads_data:

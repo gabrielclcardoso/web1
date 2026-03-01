@@ -14,7 +14,8 @@ COPY ./conf/msmtprc /etc/msmtprc
 RUN chmod 600 /etc/msmtprc && chown www-data:www-data /etc/msmtprc
 RUN echo "sendmail_path = /usr/bin/msmtp -t" >> /usr/local/etc/php/conf.d/sendmail.ini
 
-
 # Lets php save captured images
 WORKDIR /var/www/html
-RUN chown -R www-data:www-data /var/www/html
+RUN mkdir -p /var/www/html/public/assets/uploads \
+    && chown -R www-data:www-data /var/www/html \
+    && chmod 755 /var/www/html/public/assets/uploads

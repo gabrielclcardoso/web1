@@ -20,9 +20,11 @@ document.addEventListener("click", function (e) {
           countSpan.innerText = data.newCount;
 
           if (data.action === "liked") {
-            btn.style.color = "red";
+            btn.classList.add("text-liked");
+            btn.classList.remove("text-unliked");
           } else {
-            btn.style.color = "#555";
+            btn.classList.add("text-unliked");
+            btn.classList.remove("text-liked");
           }
         } else if (data.message) {
           alert(data.message);
@@ -71,5 +73,16 @@ document.addEventListener("click", function (e) {
         console.error(err);
         btn.disabled = false;
       });
+  }
+});
+
+document.addEventListener("keypress", function (e) {
+  if (e.target.classList.contains("comment-input") && e.key === "Enter") {
+    e.preventDefault();
+
+    const sendBtn = e.target.nextElementSibling;
+    if (sendBtn && sendBtn.classList.contains("btn-send-comment")) {
+      sendBtn.click();
+    }
   }
 });

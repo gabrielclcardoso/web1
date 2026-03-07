@@ -48,12 +48,9 @@ $isLoggedIn = isset($_SESSION['user_id']);
 
                     <div class="image-actions">
                         <?php if ($isLoggedIn): ?>
-						<button class="action-btn like-btn" data-id="<?php echo $image['id']; ?>" style="color: <?php echo ($image['user_liked'] > 0) ? 'red' : '#555'; ?>;">
-							❤️ <span class="like-count"><?php echo $image['like_count']; ?></span>
-						</button>
-                            <button class="action-btn comment-btn" onclick="document.getElementById('comment-input-<?php echo $image['id']; ?>').focus();">
-                                💬 Comment
-                            </button>
+							<button class="action-btn like-btn <?php echo ($image['user_liked'] > 0) ? 'text-liked' : 'text-unliked'; ?>" data-id="<?php echo $image['id']; ?>">
+								❤️ <span class="like-count"><?php echo $image['like_count']; ?></span>
+							</button>
                         <?php else: ?>
                             <p style="font-size: 0.9em; color: #777;">Log in to like and comment.</p>
                         <?php endif; ?>

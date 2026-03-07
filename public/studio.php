@@ -11,16 +11,16 @@ require_once '../srcs/includes/header.php';
 
 <div class="editor-container">
     <div class="camera-section">
-		<div style="position: relative; width: 100%; max-width: 640px; margin: 0 auto;">
+		<div class="camera-wrapper">
 			<video id="video" autoplay playsinline></video>
         	<canvas id="canvas" style="display:none;"></canvas>
-			<img id="overlay-preview" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; border-radius: 8px; z-index: 10;">
+			<img id="overlay-preview" class="overlay-preview-img">
 		</div>
 
-		<div>
+		<div class="camera-controls">
 			<button id="capture-btn" class="btn">Take picture</button>
-			<button id="save-btn" class="btn" style="display:none; background: #28a745;" disabled>Save Picture</button>
-			<button id="clear-btn" class="btn" style="display:none; background: #dc3545;">Discard & Retake</button>
+			<button id="save-btn" class="btn btn-success">Save Picture</button>
+			<button id="clear-btn" class="btn btn-danger">Discard & Retake</button>
 		</div>
     </div>
 

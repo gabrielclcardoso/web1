@@ -5,6 +5,7 @@ const saveBtn = document.getElementById("save-btn");
 const fileUpload = document.getElementById("file-upload");
 const clearBtn = document.getElementById("clear-btn");
 const overlayItems = document.querySelectorAll(".overlay-item");
+const overlayPreview = document.getElementById("overlay-preview");
 
 let selectedOverlay = null;
 let isWebcamMode = true;
@@ -25,6 +26,9 @@ overlayItems.forEach((item) => {
     overlayItems.forEach((i) => i.classList.remove("selected"));
     item.classList.add("selected");
     selectedOverlay = item.getAttribute("src");
+
+    overlayPreview.src = selectedOverlay;
+    overlayPreview.style.display = "block";
 
     if (video.style.display === "none") {
       saveBtn.disabled = false;
@@ -83,6 +87,10 @@ clearBtn.addEventListener("click", () => {
   clearBtn.style.display = "none";
   saveBtn.style.display = "none";
   captureBtn.style.display = "inline-block";
+
+  selectedOverlay = null;
+  overlayPreview.style.display = "none";
+  overlayItems.forEach((i) => i.classList.remove("selected"));
 });
 
 captureBtn.addEventListener("click", () => {

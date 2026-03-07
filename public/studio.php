@@ -11,8 +11,11 @@ require_once '../srcs/includes/header.php';
 
 <div class="editor-container">
     <div class="camera-section">
-        <video id="video" autoplay playsinline></video>
-        <canvas id="canvas" style="display:none;"></canvas>
+		<div style="position: relative; width: 100%; max-width: 640px; margin: 0 auto;">
+			<video id="video" autoplay playsinline></video>
+        	<canvas id="canvas" style="display:none;"></canvas>
+			<img id="overlay-preview" style="display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; border-radius: 8px; z-index: 10;">
+		</div>
 
 		<div>
 			<button id="capture-btn" class="btn">Take picture</button>

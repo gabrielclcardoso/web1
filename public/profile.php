@@ -30,10 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
     } elseif (isset($_POST['update_pass'])) {
         $pass = $_POST['password'] ?? '';
-        if (strlen($pass) < 8) {
-            $message = "The password must have at least 8 characters";
-            $div_class = "error";
-        } else {
+		if (strlen($pass) < 8 || !preg_match('/[0-9]/', $pass)) {
+    	    $message = "The password must have at least 8 characters and contain at least one number.";
+			$div_class = "error";
+    	} else {
             if ($user->updatePassword($_SESSION['user_id'], $pass)) {
                 $message = "Password updated successfully!";
                 $div_class = "success";
@@ -70,7 +70,7 @@ require_once '../srcs/includes/header.php';
     <form method="POST">
         <h3>Change Password</h3>
 		<label for="password">New Password:</label>
-        <input type="password" id="password" name="password" autocomplete="new-password" placeholder="New Password" required>
+        <input type="password" id="password" name="password" autocomplete="new-password" placeholder="New Password (min. 8 chars, 1 number)" required>
         <button type="submit" name="update_pass" class="btn" style="background: #6c757d;">Change Password</button>
     </form>
 </div>

@@ -12,8 +12,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $user = new User();
 
-    if (strlen($password) < 8) {
-        $message = "The password must have at least 8 characters";
+	if (strlen($password) < 8 || !preg_match('/[0-9]/', $password)) {
+        $message = "The password must have at least 8 characters and contain at least one number.";
 		$div_class = "error";
     } else {
 		$token = $user->create($username, $email, $password);
@@ -55,7 +55,7 @@ require_once '../srcs/includes/header.php';
         <input type="email" id="email" name="email" placeholder="E-mail" autocomplete="email" required>
         
         <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Password (min. 8 characters)" autocomplete="new-password" required>
+        <input type="password" id="password" name="password" placeholder="Password (min. 8 characters, 1 number)" autocomplete="new-password" required>
         <button type="submit" class="btn">Register</button>
     </form>
 

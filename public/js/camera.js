@@ -5,9 +5,11 @@ const saveBtn = document.getElementById("save-btn");
 const fileUpload = document.getElementById("file-upload");
 const clearBtn = document.getElementById("clear-btn");
 const overlayItems = document.querySelectorAll(".overlay-item");
-const overlayPreview = document.getElementById("overlay-preview");
+const overlayPreviewContainer = document.getElementById(
+  "overlay-preview-container",
+);
 
-let selectedOverlay = null;
+let selectedOverlays = [];
 let isWebcamMode = true;
 
 function startWebcam() {
@@ -23,18 +25,30 @@ startWebcam();
 // Disable uploading without overlay
 overlayItems.forEach((item) => {
   item.addEventListener("click", () => {
-    overlayItems.forEach((i) => i.classList.remove("selected"));
-    item.classList.add("selected");
-    selectedOverlay = item.getAttribute("src");
+    const src = item.getAttribute("src");
+    const index = selectedOverlays.indexOf(src);
 
-    overlayPreview.src = selectedOverlay;
-    overlayPreview.style.display = "block";
-
-    if (video.style.display === "none") {
-      saveBtn.disabled = false;
+    if (index > -1) {
+      selectedOverlays.splice(index, 1);
+      item.classList.remove("selected");
+    } else {
+      selectedOverlays.push(src);
+      item.classList.add("selected");
     }
+
+    renderPreviews();
   });
 });
+
+function renderPreviews() {
+  overlayPreviewContainer.innerHTML = "";
+  selectedOverlays.forEach((src) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.className = "overlay-preview-img";
+    overlayPreviewContainer.appendChild(img);
+  });
+}
 
 // Image upload logic
 fileUpload.addEventListener("change", (e) => {
@@ -70,7 +84,7 @@ fileUpload.addEventListener("change", (e) => {
       clearBtn.style.display = "inline-block";
 
       isWebcamMode = false;
-      if (selectedOverlay) saveBtn.disabled = false;
+      saveBtn.disabled = false;
     };
     img.src = event.target.result;
   };
@@ -88,9 +102,9 @@ clearBtn.addEventListener("click", () => {
   saveBtn.style.display = "none";
   captureBtn.style.display = "inline-block";
 
-  selectedOverlay = null;
-  overlayPreview.style.display = "none";
+  selectedOverlays = [];
   overlayItems.forEach((i) => i.classList.remove("selected"));
+  renderPreviews();
 });
 
 captureBtn.addEventListener("click", () => {
@@ -109,15 +123,10 @@ captureBtn.addEventListener("click", () => {
   clearBtn.style.display = "inline-block";
 
   isWebcamMode = true;
-  if (selectedOverlay) saveBtn.disabled = false;
+  saveBtn.disabled = false;
 });
 
 saveBtn.addEventListener("click", () => {
-  if (!selectedOverlay) {
-    alert("Please select an overlay before saving!");
-    return;
-  }
-
   const imageData = canvas.toDataURL("image/jpeg", 0.8);
 
   saveBtn.disabled = true;
@@ -127,7 +136,7 @@ saveBtn.addEventListener("click", () => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       image: imageData,
-      overlay: selectedOverlay,
+      overlays: selectedOverlays,
       is_webcam: isWebcamMode,
     }),
   })

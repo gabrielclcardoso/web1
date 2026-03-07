@@ -14,13 +14,13 @@ require_once '../srcs/includes/header.php';
 		<div class="camera-wrapper">
 			<video id="video" autoplay playsinline></video>
         	<canvas id="canvas" style="display:none;"></canvas>
-			<img id="overlay-preview" class="overlay-preview-img">
+			<div id="overlay-preview-container" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10;"></div>
 		</div>
 
 		<div class="camera-controls">
 			<button id="capture-btn" class="btn">Take picture</button>
-			<button id="save-btn" class="btn btn-success">Save Picture</button>
-			<button id="clear-btn" class="btn btn-danger">Discard & Retake</button>
+			<button id="save-btn" style="display:none;" class="btn btn-success">Save Picture</button>
+			<button id="clear-btn" style="display:none;" class="btn btn-danger">Discard & Retake</button>
 		</div>
     </div>
 

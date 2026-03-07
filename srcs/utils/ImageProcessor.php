@@ -2,11 +2,9 @@
 
 class ImageProcessor {
     private $sourceImg = null;
-    private $overlayImg = null;
 
     public function __destruct() {
         if ($this->sourceImg) imagedestroy($this->sourceImg);
-        if ($this->overlayImg) imagedestroy($this->overlayImg);
     }
 
     public function loadFromBase64($base64String, $isWebcam = true) {
@@ -28,20 +26,21 @@ class ImageProcessor {
     public function applyOverlay($overlayPath) {
         if (!file_exists($overlayPath)) throw new Exception('Overlay not found.');
         
-        $this->overlayImg = imagecreatefrompng($overlayPath);
+        $overlayImg = imagecreatefrompng($overlayPath);
+		if (!$overlayImg) throw new Exception('Invalid overlay image.');
         
         imagealphablending($this->sourceImg, true);
         imagesavealpha($this->sourceImg, true);
 
-        $ovrWidth = imagesx($this->overlayImg);
-        $ovrHeight = imagesy($this->overlayImg);
+        $ovrWidth = imagesx($overlayImg);
+        $ovrHeight = imagesy($overlayImg);
 
 		$srcWidth = imagesx($this->sourceImg);
 		$srcHeight = imagesy($this->sourceImg);
 		
 		imagecopyresampled(
 		    $this->sourceImg,
-		    $this->overlayImg,
+		    $overlayImg,
 		    0, 0,
 		    0, 0,
 		    $srcWidth,
@@ -49,6 +48,8 @@ class ImageProcessor {
 		    $ovrWidth,
 		    $ovrHeight
 		);
+
+		imagedestroy($overlayImg);
 
         return $this;
     }

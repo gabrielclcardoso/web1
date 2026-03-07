@@ -13,18 +13,21 @@ try {
     }
 
     $input = json_decode(file_get_contents('php://input'), true);
-    if (!$input || empty($input['image']) || empty($input['overlay'])) {
+	if (!$input || empty($input['image']) || !isset($input['overlays']) || !is_array($input['overlays'])) {
         throw new Exception('Incomplete data.');
     }
 
-    $overlayRelative = $input['overlay'];
-    if (strpos($overlayRelative, 'assets/overlays/') !== 0 || strpos($overlayRelative, '..') !== false) {
-        throw new Exception('Invalid overlay path');
+	$overlays = $input['overlays'];
+    $overlayAbsolutePaths = [];
+	foreach ($overlays as $overlayRelative) {
+        if (strpos($overlayRelative, 'assets/overlays/') !== 0 || strpos($overlayRelative, '..') !== false) {
+            throw new Exception('Invalid overlay path');
+        }
+        $overlayAbsolutePaths[] = __DIR__ . '/' . $overlayRelative;
     }
 
-    $overlayAbsolutePath = __DIR__ . '/' . $overlayRelative;
     $uploadDir = __DIR__ . '/assets/uploads/';
-    if (!is_dir($uploadDir)) mkdir($uploadDir, 0777, true);
+    if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
     
     $fileName = 'post_' . $_SESSION['user_id'] . '_' . time() . '_' . bin2hex(random_bytes(4)) . '.png';
     $savePath = $uploadDir . $fileName;
@@ -33,9 +36,11 @@ try {
 	
 	// Image processing and saving
     $processor = new ImageProcessor();
-    $processor->loadFromBase64($input['image'], $isWebcam)
-              ->applyOverlay($overlayAbsolutePath)
-              ->save($savePath);
+    $processor->loadFromBase64($input['image'], $isWebcam);
+	foreach ($overlayAbsolutePaths as $path) {
+        $processor->applyOverlay($path);
+    }
+	$processor->save($savePath);
 
 	// Database uploading
     $dbPath = 'assets/uploads/' . $fileName;

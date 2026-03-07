@@ -32,8 +32,10 @@ require_once '../srcs/includes/header.php';
     <div class="sidebar">
         <h3>Choose an overlay</h3>
         <div class="overlay-selection">
-            <img src="assets/overlays/santa_hat.png" class="overlay-item" data-id="1">
-            <img src="assets/overlays/beach.png" class="overlay-item" data-id="2">
+            <img src="assets/overlays/rain.png" class="overlay-item" data-id="1">
+            <img src="assets/overlays/tv.png" class="overlay-item" data-id="2">
+            <img src="assets/overlays/beach.png" class="overlay-item" data-id="3">
+            <img src="assets/overlays/fog.png" class="overlay-item" data-id="4">
         </div>
 		<div id="gallery-preview"></div>
     </div>

@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['username'] = $username;
             $message = "Information updated!";
             $div_class = "success";
-            $currentData['notif_comment'] = $notifications;
+			$currentData = $user->getById($_SESSION['user_id']);
         } else {
 			$message = $res['message'] ?? "Error updating info.";
             $div_class = "error";
